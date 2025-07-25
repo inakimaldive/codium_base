@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: white;
+            /* Ensure the iframe has a white background */
+        }
+    </style>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Actions - repository-name</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            }
+
+            :root {
+                --bg-primary: #0d1117;
+                --bg-secondary: #161b22;
+                --bg-tertiary: #010409;
+                --border-color: #30363d;
+                --text-primary: #c9d1d9;
+                --text-secondary: #8b949e;
+                --accent-color: #58a6ff;
+                --accent-hover: #1f6feb;
+                --success: #3fb950;
+                --danger: #f85149;
+                --warning: #d29922;
+                --pending: #d29922;
+                --card-bg: #161b22;
+                --btn-bg: #21262d;
+                --btn-hover: #30363d;
+                --sidebar-width: 240px;
+            }
+
+            body {
+                background-color: var(--bg-primary);
+                color: var(--text-primary);
+                line-height: 1.5;
+            }
+
+            /* Header Styles */
+            .header {
+                background-color: var(--bg-tertiary);
+                border-bottom: 1px solid var(--border-color);
+                padding: 12px 0;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .header-container {
+                display: flex;
+                align-items: center;
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 16px;
+            }
+
+            .logo {
+                color: var(--text-primary);
+                font-size: 24px;
+                margin-right: 16px;
+            }
+
+            .search-bar {
+                flex: 1;
+                max-width: 300px;
+                margin-right: 16px;
+            }
+
+            .search-bar input {
+                width: 100%;
+                background-color: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                padding: 7px 12px;
+                color: var(--text-primary);
+                font-size: 14px;
+            }
+
+            .nav-links {
+                display: flex;
+                margin-right: 16px;
+            }
+
+            .nav-links a {
+                color: var(--text-secondary);
+                text-decoration: none;
+                margin: 0 12px;
+                font-size: 14px;
+            }
+
+            .nav-links a:hover {
+                color: var(--text-primary);
+            }
+
+            .header-actions {
+                display: flex;
+                align-items: center;
+            }
+
+            .header-btn {
+                background: none;
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                color: var(--text-primary);
+                padding: 5px 12px;
+                margin-left: 8px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+
+            .header-btn:hover {
+                background-color: var(--btn-hover);
+            }
+
+            .user-avatar {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                margin-left: 16px;
+                background-color: #58a6ff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+            }
+
+            /* Repository Header */
+            .repo-header {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 16px;
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .repo-path {
+                font-size: 14px;
+                margin-bottom: 16px;
+                width: 100%;
+            }
+
+            .repo-path a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+            .repo-path a:hover {
+                text-decoration: underline;
+            }
+
+            .repo-name {
+                font-size: 24px;
+                font-weight: 600;
+                margin-right: 16px;
+                margin-bottom: 16px;
+            }
+
+            .repo-stats {
+                display: flex;
+                margin-bottom: 16px;
+            }
+
+            .repo-stat {
+                display: flex;
+                align-items: center;
+                margin-right: 16px;
+                color: var(--text-secondary);
+                font-size: 14px;
+            }
+
+            .repo-stat i {
+                margin-right: 4px;
+            }
+
+            .repo-actions {
+                display: flex;
+                margin-left: auto;
+                margin-bottom: 16px;
+            }
+
+            .repo-action-btn {
+                background-color: var(--btn-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                color: var(--text-primary);
+                padding: 5px 16px;
+                margin-left: 8px;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+            }
+
+            .repo-action-btn:hover {
+                background-color: var(--btn-hover);
+            }
+
+            .repo-action-btn i {
+                margin-right: 4px;
+            }
+
+            /* Repository Navigation */
+            .repo-nav {
+                background-color: var(--bg-secondary);
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .repo-nav-container {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 16px;
+                display: flex;
+            }
+
+            .repo-nav-item {
+                padding: 12px 16px;
+                color: var(--text-primary);
+                text-decoration: none;
+                font-size: 14px;
+                border-bottom: 2px solid transparent;
+            }
+
+            .repo-nav-item.active {
+                border-bottom: 2px solid var(--accent-color);
+                font-weight: 600;
+            }
+
+            .repo-nav-item:hover {
+                color: var(--accent-color);
+            }
+
+            /* Breadcrumb */
+            .breadcrumb {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 16px;
+                font-size: 14px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            .breadcrumb span {
+                margin: 0 8px;
+                color: var(--text-secondary);
+            }
+
+            /* Main Content */
+            .main-content {
+                display: flex;
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 16px 32px;
+            }
+
+            /* Sidebar */
+            .actions-sidebar {
+                width: var(--sidebar-width);
+                margin-right: 24px;
+            }
+
+            .sidebar-title {
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                padding: 8px 0;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+            }
+
+            .sidebar-nav {
+                list-style: none;
+            }
+
+            .sidebar-nav-item {
+                margin-bottom: 4px;
+            }
+
+            .sidebar-nav-link {
+                display: block;
+                padding: 8px 12px;
+                border-radius: 6px;
+                color: var(--text-primary);
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+            .sidebar-nav-link:hover {
+                background-color: var(--bg-secondary);
+                text-decoration: none;
+            }
+
+            .sidebar-nav-link.active {
+                background-color: var(--bg-secondary);
+                font-weight: 600;
+                border-left: 2px solid var(--accent-color);
+            }
+
+            .sidebar-nav-link i {
+                margin-right: 8px;
+                width: 16px;
+                text-align: center;
+            }
+
+            .workflow-list {
+                list-style: none;
+                margin-top: 16px;
+            }
+
+            .workflow-item {
+                margin-bottom: 4px;
+            }
+
+            .workflow-link {
+                display: block;
+                padding: 8px 12px;
+                border-radius: 6px;
+                color: var(--text-primary);
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+            .workflow-link:hover {
+                background-color: var(--bg-secondary);
+            }
+
+            .workflow-link.active {
+                background-color: var(--bg-secondary);
+                font-weight: 600;
+            }
+
+            .workflow-link i {
+                margin-right: 8px;
+                width: 16px;
+                text-align: center;
+            }
+
+            /* Actions Content */
+            .actions-content {
+                flex: 1;
+            }
+
+            .actions-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 24px;
+            }
+
+            .actions-title {
+                font-size: 24px;
+                font-weight: 300;
+            }
+
+            .btn {
+                background-color: var(--btn-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                color: var(--text-primary);
+                padding: 5px 16px;
+                font-size: 14px;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .btn:hover {
+                background-color: var(--btn-hover);
+            }
+
+            .btn-primary {
+                background-color: var(--accent-color);
+                border-color: var(--accent-color);
+                color: white;
+            }
+
+            .btn-primary:hover {
+                background-color: var(--accent-hover);
+            }
+
+            .btn-sm {
+                padding: 3px 12px;
+                font-size: 12px;
+            }
+
+            /* Status Indicators */
+            .status-indicator {
+                display: inline-flex;
+                align-items: center;
+                padding: 2px 8px;
+                border-radius: 2em;
+                font-size: 12px;
+                font-weight: 500;
+            }
+
+            .status-success {
+                background-color: rgba(46, 160, 67, 0.15);
+                color: var(--success);
+            }
+
+            .status-failure {
+                background-color: rgba(248, 81, 73, 0.15);
+                color: var(--danger);
+            }
+
+            .status-pending {
+                background-color: rgba(210, 153, 34, 0.15);
+                color: var(--pending);
+            }
+
+            .status-neutral {
+                background-color: rgba(139, 148, 158, 0.15);
+                color: var(--text-secondary);
+            }
+
+            /* Workflow Runs Table */
+            .runs-table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                background-color: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                overflow: hidden;
+            }
+
+            .runs-table th {
+                text-align: left;
+                padding: 12px 16px;
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--text-secondary);
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .runs-table td {
+                padding: 12px 16px;
+                border-bottom: 1px solid var(--border-color);
+                font-size: 14px;
+            }
+
+            .runs-table tr:last-child td {
+                border-bottom: none;
+            }
+
+            .runs-table tr:hover td {
+                background-color: var(--bg-tertiary);
+            }
+
+            .run-link {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+            .run-link:hover {
+                text-decoration: underline;
+            }
+
+            .run-info {
+                display: flex;
+                align-items: center;
+            }
+
+            .run-icon {
+                margin-right: 8px;
+                color: var(--text-secondary);
+            }
+
+            .run-details {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .run-message {
+                font-size: 14px;
+            }
+
+            .run-commit {
+                font-size: 12px;
+                color: var(--text-secondary);
+            }
+
+            .run-timing {
+                font-size: 12px;
+                color: var(--text-secondary);
+            }
+
+            .run-trigger {
+                display: flex;
+                align-items: center;
+            }
+
+            .trigger-avatar {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: var(--accent-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 10px;
+                margin-right: 8px;
+            }
+
+            /* Empty State */
+            .empty-state {
+                text-align: center;
+                padding: 48px 0;
+                background-color: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+            }
+
+            .empty-state-icon {
+                font-size: 48px;
+                color: var(--text-secondary);
+                margin-bottom: 16px;
+            }
+
+            .empty-state-title {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+
+            .empty-state-description {
+                color: var(--text-secondary);
+                max-width: 500px;
+                margin: 0 auto 24px;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .main-content {
+                    flex-direction: column;
+                }
+
+                .actions-sidebar {
+                    width: 100%;
+                    margin-right: 0;
+                    margin-bottom: 24px;
+                }
+
+                .actions-header {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .actions-title {
+                    margin-bottom: 16px;
+                }
+
+                .runs-table {
+                    display: block;
+                    overflow-x: auto;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <div class="logo">
+                    <i class="fab fa-github"></i>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search or jump to...">
+                </div>
+                <nav class="nav-links">
+                    <a href="#">Dashboard</a>
+                    <a href="#">Pull requests</a>
+                    <a href="#">Issues</a>
+                    <a href="#">Marketplace</a>
+                    <a href="#">Explore</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="header-btn">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="user-avatar">U</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Repository Header -->
+        <div class="repo-header">
+            <div class="repo-path">
+                <a href="#">username</a> / <strong>repository-name</strong>
+            </div>
+            <h1 class="repo-name">repository-name</h1>
+            <div class="repo-stats">
+                <div class="repo-stat">
+                    <i class="fas fa-star"></i> 1,234
+                </div>
+                <div class="repo-stat">
+                    <i class="fas fa-code-branch"></i> 56
+                </div>
+                <div class="repo-stat">
+                    <i class="fas fa-eye"></i> 789
+                </div>
+            </div>
+            <div class="repo-actions">
+                <button class="repo-action-btn">
+                    <i class="fas fa-star"></i> Star
+                </button>
+                <button class="repo-action-btn">
+                    <i class="fas fa-code-branch"></i> Fork
+                </button>
+                <button class="repo-action-btn">
+                    <i class="fas fa-exclamation-circle"></i> Watch
+                </button>
+            </div>
+        </div>
+
+        <!-- Repository Navigation -->
+        <nav class="repo-nav">
+            <div class="repo-nav-container">
+                <a href="#" class="repo-nav-item">Code</a>
+                <a href="#" class="repo-nav-item">Issues</a>
+                <a href="#" class="repo-nav-item">Pull requests</a>
+                <a href="#" class="repo-nav-item">Discussions</a>
+                <a href="#" class="repo-nav-item active">Actions</a>
+                <a href="#" class="repo-nav-item">Projects</a>
+                <a href="#" class="repo-nav-item">Wiki</a>
+                <a href="#" class="repo-nav-item">Security</a>
+                <a href="#" class="repo-nav-item">Insights</a>
+            </div>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="#">username</a>
+            <span>/</span>
+            <a href="#">repository-name</a>
+            <span>/</span>
+            <strong>Actions</strong>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Actions Sidebar -->
+            <div class="actions-sidebar">
+                <div class="sidebar-title">Workflows</div>
+                <ul class="workflow-list">
+                    <li class="workflow-item">
+                        <a href="#" class="workflow-link active">
+                            <i class="fas fa-check-circle"></i> CI
+                        </a>
+                    </li>
+                    <li class="workflow-item">
+                        <a href="#" class="workflow-link">
+                            <i class="fas fa-sync-alt"></i> Deploy
+                        </a>
+                    </li>
+                    <li class="workflow-item">
+                        <a href="#" class="workflow-link">
+                            <i class="fas fa-code"></i> Code Quality
+                        </a>
+                    </li>
+                    <li class="workflow-item">
+                        <a href="#" class="workflow-link">
+                            <i class="fas fa-shield-alt"></i> Security Scan
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Actions Content -->
+            <div class="actions-content">
+                <div class="actions-header">
+                    <h1 class="actions-title">CI</h1>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-sync-alt"></i> Run workflow
+                    </button>
+                </div>
+
+                <!-- Workflow Runs Table -->
+                <table class="runs-table">
+                    <thead>
+                        <tr>
+                            <th>Workflow / Date</th>
+                            <th>Run #</th>
+                            <th>Status</th>
+                            <th>Trigger</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="run-info">
+                                    <i class="fas fa-code-branch run-icon"></i>
+                                    <div class="run-details">
+                                        <a href="#" class="run-link">CI</a>
+                                        <span class="run-commit">Merge pull request #42 from feature/new-ui</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>#1245</td>
+                            <td><span class="status-indicator status-success">Success</span></td>
+                            <td>
+                                <div class="run-trigger">
+                                    <div class="trigger-avatar">U</div>
+                                    <span>username</span>
+                                </div>
+                            </td>
+                            <td class="run-timing">3m 24s</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="run-info">
+                                    <i class="fas fa-code-branch run-icon"></i>
+                                    <div class="run-details">
+                                        <a href="#" class="run-link">CI</a>
+                                        <span class="run-commit">Fix responsive layout issues</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>#1244</td>
+                            <td><span class="status-indicator status-failure">Failure</span></td>
+                            <td>
+                                <div class="run-trigger">
+                                    <div class="trigger-avatar">U</div>
+                                    <span>username</span>
+                                </div>
+                            </td>
+                            <td class="run-timing">2m 15s</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="run-info">
+                                    <i class="fas fa-code-branch run-icon"></i>
+                                    <div class="run-details">
+                                        <a href="#" class="run-link">CI</a>
+                                        <span class="run-commit">Update dependencies</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>#1243</td>
+                            <td><span class="status-indicator status-success">Success</span></td>
+                            <td>
+                                <div class="run-trigger">
+                                    <div class="trigger-avatar">A</div>
+                                    <span>admin</span>
+                                </div>
+                            </td>
+                            <td class="run-timing">4m 12s</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="run-info">
+                                    <i class="fas fa-code-branch run-icon"></i>
+                                    <div class="run-details">
+                                        <a href="#" class="run-link">CI</a>
+                                        <span class="run-commit">Add new authentication flow</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>#1242</td>
+                            <td><span class="status-indicator status-pending">In progress</span></td>
+                            <td>
+                                <div class="run-trigger">
+                                    <div class="trigger-avatar">D</div>
+                                    <span>developer</span>
+                                </div>
+                            </td>
+                            <td class="run-timing">1m 30s</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="run-info">
+                                    <i class="fas fa-code-branch run-icon"></i>
+                                    <div class="run-details">
+                                        <a href="#" class="run-link">CI</a>
+                                        <span class="run-commit">Refactor API endpoints</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>#1241</td>
+                            <td><span class="status-indicator status-neutral">Cancelled</span></td>
+                            <td>
+                                <div class="run-trigger">
+                                    <div class="trigger-avatar">M</div>
+                                    <span>maintainer</span>
+                                </div>
+                            </td>
+                            <td class="run-timing">0m 45s</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+
+    </html>
+
+
+
+    <script>
+
+    </script>
+</body>
+
+</html>

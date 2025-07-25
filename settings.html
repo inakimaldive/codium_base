@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: white;
+            /* Ensure the iframe has a white background */
+        }
+    </style>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Settings - GitHub</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            }
+
+            :root {
+                --bg-primary: #0d1117;
+                --bg-secondary: #161b22;
+                --bg-tertiary: #010409;
+                --border-color: #30363d;
+                --text-primary: #c9d1d9;
+                --text-secondary: #8b949e;
+                --accent-color: #58a6ff;
+                --accent-hover: #1f6feb;
+                --success: #3fb950;
+                --danger: #f85149;
+                --warning: #d29922;
+                --card-bg: #161b22;
+                --btn-bg: #21262d;
+                --btn-hover: #30363d;
+                --sidebar-width: 240px;
+            }
+
+            body {
+                background-color: var(--bg-primary);
+                color: var(--text-primary);
+                line-height: 1.5;
+            }
+
+            /* Header Styles */
+            .header {
+                background-color: var(--bg-tertiary);
+                border-bottom: 1px solid var(--border-color);
+                padding: 12px 0;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .header-container {
+                display: flex;
+                align-items: center;
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 16px;
+            }
+
+            .logo {
+                color: var(--text-primary);
+                font-size: 24px;
+                margin-right: 16px;
+            }
+
+            .search-bar {
+                flex: 1;
+                max-width: 300px;
+                margin-right: 16px;
+            }
+
+            .search-bar input {
+                width: 100%;
+                background-color: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                padding: 7px 12px;
+                color: var(--text-primary);
+                font-size: 14px;
+            }
+
+            .nav-links {
+                display: flex;
+                margin-right: 16px;
+            }
+
+            .nav-links a {
+                color: var(--text-secondary);
+                text-decoration: none;
+                margin: 0 12px;
+                font-size: 14px;
+            }
+
+            .nav-links a:hover {
+                color: var(--text-primary);
+            }
+
+            .header-actions {
+                display: flex;
+                align-items: center;
+            }
+
+            .header-btn {
+                background: none;
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                color: var(--text-primary);
+                padding: 5px 12px;
+                margin-left: 8px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+
+            .header-btn:hover {
+                background-color: var(--btn-hover);
+            }
+
+            .user-avatar {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                margin-left: 16px;
+                background-color: #58a6ff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+            }
+
+            /* Breadcrumb */
+            .breadcrumb {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 16px;
+                font-size: 14px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            .breadcrumb span {
+                margin: 0 8px;
+                color: var(--text-secondary);
+            }
+
+            /* Main Content */
+            .main-content {
+                display: flex;
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 16px 32px;
+            }
+
+            /* Sidebar */
+            .settings-sidebar {
+                width: var(--sidebar-width);
+                margin-right: 24px;
+            }
+
+            .sidebar-title {
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                padding: 8px 0;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+            }
+
+            .sidebar-nav {
+                list-style: none;
+            }
+
+            .sidebar-nav-item {
+                margin-bottom: 4px;
+            }
+
+            .sidebar-nav-link {
+                display: block;
+                padding: 8px 12px;
+                border-radius: 6px;
+                color: var(--text-primary);
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+            .sidebar-nav-link:hover {
+                background-color: var(--bg-secondary);
+                text-decoration: none;
+            }
+
+            .sidebar-nav-link.active {
+                background-color: var(--bg-secondary);
+                font-weight: 600;
+                border-left: 2px solid var(--accent-color);
+            }
+
+            .sidebar-nav-link i {
+                margin-right: 8px;
+                width: 16px;
+                text-align: center;
+            }
+
+            /* Settings Content */
+            .settings-content {
+                flex: 1;
+            }
+
+            .settings-section {
+                background-color: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                margin-bottom: 24px;
+                overflow: hidden;
+            }
+
+            .settings-header {
+                padding: 16px;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+            }
+
+            .settings-header h2 {
+                font-size: 20px;
+                font-weight: 400;
+            }
+
+            .settings-body {
+                padding: 16px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+
+            .form-group:last-child {
+                margin-bottom: 0;
+            }
+
+            .form-label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            .form-label-description {
+                color: var(--text-secondary);
+                font-size: 12px;
+                font-weight: normal;
+                margin-top: 4px;
+            }
+
+            .form-control {
+                width: 100%;
+                background-color: var(--bg-tertiary);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                padding: 8px 12px;
+                color: var(--text-primary);
+                font-size: 14px;
+            }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--accent-color);
+                box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+            }
+
+            .form-row {
+                display: flex;
+                gap: 16px;
+            }
+
+            .form-col {
+                flex: 1;
+            }
+
+            .btn {
+                background-color: var(--btn-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                color: var(--text-primary);
+                padding: 5px 16px;
+                font-size: 14px;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .btn:hover {
+                background-color: var(--btn-hover);
+            }
+
+            .btn-primary {
+                background-color: var(--accent-color);
+                border-color: var(--accent-color);
+                color: white;
+            }
+
+            .btn-primary:hover {
+                background-color: var(--accent-hover);
+            }
+
+            .btn-danger {
+                background-color: var(--danger);
+                border-color: var(--danger);
+                color: white;
+            }
+
+            .btn-danger:hover {
+                background-color: #da3633;
+            }
+
+            .btn-sm {
+                padding: 3px 12px;
+                font-size: 12px;
+            }
+
+            .avatar-container {
+                display: flex;
+                align-items: center;
+            }
+
+            .avatar-preview {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background-color: var(--accent-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 32px;
+                margin-right: 16px;
+            }
+
+            .avatar-actions {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .avatar-btn {
+                margin-bottom: 8px;
+            }
+
+            .avatar-btn:last-child {
+                margin-bottom: 0;
+            }
+
+            .radio-group {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .radio-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 12px;
+            }
+
+            .radio-item input {
+                margin-right: 8px;
+            }
+
+            .radio-item label {
+                font-size: 14px;
+            }
+
+            .radio-item-description {
+                color: var(--text-secondary);
+                font-size: 12px;
+                margin-top: 4px;
+                margin-left: 24px;
+            }
+
+            .checkbox-item {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 12px;
+            }
+
+            .checkbox-item input {
+                margin-top: 4px;
+                margin-right: 8px;
+            }
+
+            .checkbox-item label {
+                font-size: 14px;
+            }
+
+            .checkbox-item-description {
+                color: var(--text-secondary);
+                font-size: 12px;
+                margin-top: 4px;
+                margin-left: 24px;
+            }
+
+            .danger-zone {
+                border: 1px solid var(--danger);
+                border-radius: 6px;
+                padding: 16px;
+                margin-top: 16px;
+            }
+
+            .danger-zone-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 8px;
+            }
+
+            .danger-zone-header i {
+                color: var(--danger);
+                margin-right: 8px;
+            }
+
+            .danger-zone-header h3 {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .danger-zone-content {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 16px;
+            }
+
+            .profile-info {
+                display: flex;
+                align-items: center;
+                margin-bottom: 16px;
+            }
+
+            .profile-info:last-child {
+                margin-bottom: 0;
+            }
+
+            .profile-info-label {
+                width: 160px;
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            .profile-info-value {
+                flex: 1;
+                font-size: 14px;
+            }
+
+            .profile-info-actions {
+                display: flex;
+            }
+
+            .profile-info-actions .btn {
+                margin-left: 8px;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .main-content {
+                    flex-direction: column;
+                }
+
+                .settings-sidebar {
+                    width: 100%;
+                    margin-right: 0;
+                    margin-bottom: 24px;
+                }
+
+                .form-row {
+                    flex-direction: column;
+                    gap: 0;
+                }
+
+                .profile-info {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .profile-info-label {
+                    width: 100%;
+                    margin-bottom: 4px;
+                }
+
+                .profile-info-actions {
+                    margin-top: 8px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <div class="logo">
+                    <i class="fab fa-github"></i>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search or jump to...">
+                </div>
+                <nav class="nav-links">
+                    <a href="#">Dashboard</a>
+                    <a href="#">Pull requests</a>
+                    <a href="#">Issues</a>
+                    <a href="#">Marketplace</a>
+                    <a href="#">Explore</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="header-btn">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="user-avatar">U</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="#">username</a>
+            <span>/</span>
+            <a href="#">Settings</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Settings Sidebar -->
+            <div class="settings-sidebar">
+                <div class="sidebar-title">Personal settings</div>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link active">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-lock"></i> Account security
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-bell"></i> Notifications
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-palette"></i> Appearance
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-globe"></i> Accessibility
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-key"></i> SSH and GPG keys
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-credit-card"></i> Billing
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Settings Content -->
+            <div class="settings-content">
+                <!-- Profile Section -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <h2>Public profile</h2>
+                    </div>
+                    <div class="settings-body">
+                        <div class="form-group">
+                            <div class="avatar-container">
+                                <div class="avatar-preview">U</div>
+                                <div class="avatar-actions">
+                                    <button class="btn avatar-btn">Upload new picture</button>
+                                    <button class="btn btn-sm">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" value="User Name">
+                            <div class="form-label-description">Your name may appear around GitHub where you contribute
+                                or are mentioned. You can remove it at any time.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Public email</label>
+                            <select class="form-control">
+                                <option>user@example.com</option>
+                                <option>user@company.com</option>
+                                <option>Hide email</option>
+                            </select>
+                            <div class="form-label-description">This will be used as the email for web-based Git
+                                operations and as the "From" address for email notifications.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Bio</label>
+                            <textarea class="form-control"
+                                rows="3">Software developer passionate about open source projects.</textarea>
+                            <div class="form-label-description">You can <strong>@mention</strong> other users and
+                                organizations to link to them.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">URL</label>
+                            <input type="text" class="form-control" value="https://example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Company</label>
+                            <input type="text" class="form-control" value="Open Source Inc.">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-control" value="San Francisco, CA">
+                        </div>
+
+                        <button class="btn btn-primary">Update profile</button>
+                    </div>
+                </div>
+
+                <!-- Profile Information Section -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <h2>Profile information</h2>
+                    </div>
+                    <div class="settings-body">
+                        <div class="profile-info">
+                            <div class="profile-info-label">Username</div>
+                            <div class="profile-info-value">username</div>
+                            <div class="profile-info-actions">
+                                <button class="btn btn-sm">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="profile-info">
+                            <div class="profile-info-label">Member since</div>
+                            <div class="profile-info-value">Jan 1, 2020</div>
+                        </div>
+
+                        <div class="profile-info">
+                            <div class="profile-info-label">GitHub profile</div>
+                            <div class="profile-info-value">https://github.com/username</div>
+                            <div class="profile-info-actions">
+                                <button class="btn btn-sm">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Communication Preferences -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <h2>Communication preferences</h2>
+                    </div>
+                    <div class="settings-body">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="marketing-emails" checked>
+                            <label for="marketing-emails">
+                                Marketing emails
+                                <div class="checkbox-item-description">Receive occasional emails about new features,
+                                    events, and surveys</div>
+                            </label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="product-updates" checked>
+                            <label for="product-updates">
+                                Product updates
+                                <div class="checkbox-item-description">Receive occasional emails about new features and
+                                    product updates</div>
+                            </label>
+                        </div>
+
+                        <button class="btn btn-primary">Save communication preferences</button>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <h2>Danger zone</h2>
+                    </div>
+                    <div class="settings-body">
+                        <div class="danger-zone">
+                            <div class="danger-zone-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <h3>Delete account</h3>
+                            </div>
+                            <div class="danger-zone-content">
+                                Once you delete your account, there is no going back. Please be certain.
+                            </div>
+                            <button class="btn btn-danger">Delete account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    </html>
+
+
+
+    <script>
+
+    </script>
+</body>
+
+</html>

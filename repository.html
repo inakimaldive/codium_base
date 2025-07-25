@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: white;
+            /* Ensure the iframe has a white background */
+        }
+    </style>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GitHub Repository Clone</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            }
+
+            :root {
+                --bg-primary: #0d1117;
+                --bg-secondary: #161b22;
+                --bg-tertiary: #010409;
+                --border-color: #30363d;
+                --text-primary: #c9d1d9;
+                --text-secondary: #8b949e;
+                --accent-color: #58a6ff;
+                --accent-hover: #1f6feb;
+                --success: #3fb950;
+                --danger: #f85149;
+                --warning: #d29922;
+                --card-bg: #161b22;
+                --btn-bg: #21262d;
+                --btn-hover: #30363d;
+            }
+
+            body {
+                background-color: var(--bg-primary);
+                color: var(--text-primary);
+                line-height: 1.5;
+            }
+
+            /* Header Styles */
+            .header {
+                background-color: var(--bg-tertiary);
+                border-bottom: 1px solid var(--border-color);
+                padding: 12px 0;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .header-container {
+                display: flex;
+                align-items: center;
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 16px;
+            }
+
+            .logo {
+                color: var(--text-primary);
+                font-size: 24px;
+                margin-right: 16px;
+            }
+
+            .search-bar {
+                flex: 1;
+                max-width: 300px;
+                margin-right: 16px;
+            }
+
+            .search-bar input {
+                width: 100%;
+                background-color: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                padding: 7px 12px;
+                color: var(--text-primary);
+                font-size: 14px;
+            }
+
+            .nav-links {
+                display: flex;
+                margin-right: 16px;
+            }
+
+            .nav-links a {
+                color: var(--text-secondary);
+                text-decoration: none;
+                margin: 0 12px;
+                font-size: 14px;
+            }
+
+            .nav-links a:hover {
+                color: var(--text-primary);
+            }
+
+            .header-actions {
+                display: flex;
+                align-items: center;
+            }
+
+            .header-btn {
+                background: none;
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                color: var(--text-primary);
+                padding: 5px 12px;
+                margin-left: 8px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+
+            .header-btn:hover {
+                background-color: var(--btn-hover);
+            }
+
+            .user-avatar {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                margin-left: 16px;
+                background-color: #58a6ff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+            }
+
+            /* Repository Header */
+            .repo-header {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 16px;
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .repo-path {
+                font-size: 14px;
+                margin-bottom: 16px;
+                width: 100%;
+            }
+
+            .repo-path a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+            .repo-path a:hover {
+                text-decoration: underline;
+            }
+
+            .repo-name {
+                font-size: 24px;
+                font-weight: 600;
+                margin-right: 16px;
+                margin-bottom: 16px;
+            }
+
+            .repo-stats {
+                display: flex;
+                margin-bottom: 16px;
+            }
+
+            .repo-stat {
+                display: flex;
+                align-items: center;
+                margin-right: 16px;
+                color: var(--text-secondary);
+                font-size: 14px;
+            }
+
+            .repo-stat i {
+                margin-right: 4px;
+            }
+
+            .repo-actions {
+                display: flex;
+                margin-left: auto;
+                margin-bottom: 16px;
+            }
+
+            .repo-action-btn {
+                background-color: var(--btn-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                color: var(--text-primary);
+                padding: 5px 16px;
+                margin-left: 8px;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+            }
+
+            .repo-action-btn:hover {
+                background-color: var(--btn-hover);
+            }
+
+            .repo-action-btn i {
+                margin-right: 4px;
+            }
+
+            /* Repository Navigation */
+            .repo-nav {
+                background-color: var(--bg-secondary);
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .repo-nav-container {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 16px;
+                display: flex;
+            }
+
+            .repo-nav-item {
+                padding: 12px 16px;
+                color: var(--text-primary);
+                text-decoration: none;
+                font-size: 14px;
+                border-bottom: 2px solid transparent;
+            }
+
+            .repo-nav-item.active {
+                border-bottom: 2px solid var(--accent-color);
+                font-weight: 600;
+            }
+
+            .repo-nav-item:hover {
+                color: var(--accent-color);
+            }
+
+            /* Main Content */
+            .main-content {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* File Browser */
+            .file-browser {
+                background-color: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                margin-bottom: 16px;
+            }
+
+            .file-browser-header {
+                padding: 12px 16px;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+            }
+
+            .breadcrumb {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            .breadcrumb span {
+                margin: 0 8px;
+                color: var(--text-secondary);
+            }
+
+            .file-list {
+                list-style: none;
+            }
+
+            .file-item {
+                display: flex;
+                align-items: center;
+                padding: 12px 16px;
+                border-bottom: 1px solid var(--border-color);
+                text-decoration: none;
+                color: var(--text-primary);
+            }
+
+            .file-item:hover {
+                background-color: var(--bg-tertiary);
+            }
+
+            .file-icon {
+                margin-right: 8px;
+                color: var(--text-secondary);
+            }
+
+            .file-name {
+                flex: 1;
+            }
+
+            .file-meta {
+                color: var(--text-secondary);
+                font-size: 12px;
+            }
+
+            /* Readme Section */
+            .readme {
+                background-color: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                margin-bottom: 16px;
+            }
+
+            .readme-header {
+                padding: 12px 16px;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+            }
+
+            .readme-title {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .readme-content {
+                padding: 16px;
+            }
+
+            .readme-content h1 {
+                font-size: 2em;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 0.3em;
+                margin-bottom: 16px;
+            }
+
+            .readme-content h2 {
+                font-size: 1.5em;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 0.3em;
+                margin: 1.5em 0 1em;
+            }
+
+            .readme-content p {
+                margin-bottom: 16px;
+            }
+
+            .readme-content code {
+                background-color: var(--bg-tertiary);
+                padding: 2px 4px;
+                border-radius: 3px;
+                font-family: monospace;
+            }
+
+            .readme-content pre {
+                background-color: var(--bg-tertiary);
+                padding: 16px;
+                border-radius: 6px;
+                overflow: auto;
+                margin: 16px 0;
+            }
+
+            /* Sidebar */
+            .sidebar {
+                background-color: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+            }
+
+            .sidebar-section {
+                padding: 16px;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .sidebar-section:last-child {
+                border-bottom: none;
+            }
+
+            .sidebar-title {
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 12px;
+            }
+
+            .about-item {
+                display: flex;
+                margin-bottom: 12px;
+                font-size: 14px;
+            }
+
+            .about-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .about-item i {
+                color: var(--text-secondary);
+                margin-right: 8px;
+                min-width: 16px;
+            }
+
+            .languages {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .language {
+                margin-right: 8px;
+                margin-bottom: 8px;
+                background-color: var(--btn-bg);
+                padding: 4px 8px;
+                border-radius: 10px;
+                font-size: 12px;
+            }
+
+            .contributors {
+                display: flex;
+            }
+
+            .contributor {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background-color: var(--accent-color);
+                margin-right: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+            }
+
+            /* Footer */
+            .footer {
+                background-color: var(--bg-tertiary);
+                border-top: 1px solid var(--border-color);
+                padding: 24px 0;
+                margin-top: 40px;
+            }
+
+            .footer-container {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 16px;
+            }
+
+            .footer-links {
+                display: flex;
+                flex-wrap: wrap;
+                margin-bottom: 16px;
+            }
+
+            .footer-links a {
+                color: var(--text-secondary);
+                text-decoration: none;
+                margin-right: 16px;
+                margin-bottom: 8px;
+                font-size: 12px;
+            }
+
+            .footer-links a:hover {
+                color: var(--text-primary);
+            }
+
+            .footer-info {
+                color: var(--text-secondary);
+                font-size: 12px;
+            }
+
+            /* Responsive adjustments */
+            @media (min-width: 992px) {
+                .main-content {
+                    flex-direction: row;
+                }
+
+                .content-column {
+                    flex: 2;
+                    margin-right: 16px;
+                }
+
+                .sidebar {
+                    flex: 1;
+                    width: auto;
+                }
+            }
+
+            @media (max-width: 768px) {
+
+                .repo-stats,
+                .repo-actions {
+                    width: 100%;
+                }
+
+                .repo-actions {
+                    margin-left: 0;
+                }
+
+                .nav-links {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <div class="logo">
+                    <i class="fab fa-github"></i>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search or jump to...">
+                </div>
+                <nav class="nav-links">
+                    <a href="#">Dashboard</a>
+                    <a href="#">Pull requests</a>
+                    <a href="#">Issues</a>
+                    <a href="#">Marketplace</a>
+                    <a href="#">Explore</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="header-btn">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="user-avatar">U</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Repository Header -->
+        <div class="repo-header">
+            <div class="repo-path">
+                <a href="#">username</a> / <strong>repository-name</strong>
+            </div>
+            <h1 class="repo-name">repository-name</h1>
+            <div class="repo-stats">
+                <div class="repo-stat">
+                    <i class="fas fa-star"></i> 1,234
+                </div>
+                <div class="repo-stat">
+                    <i class="fas fa-code-branch"></i> 56
+                </div>
+                <div class="repo-stat">
+                    <i class="fas fa-eye"></i> 789
+                </div>
+            </div>
+            <div class="repo-actions">
+                <button class="repo-action-btn">
+                    <i class="fas fa-star"></i> Star
+                </button>
+                <button class="repo-action-btn">
+                    <i class="fas fa-code-branch"></i> Fork
+                </button>
+                <button class="repo-action-btn">
+                    <i class="fas fa-exclamation-circle"></i> Watch
+                </button>
+            </div>
+        </div>
+
+        <!-- Repository Navigation -->
+        <nav class="repo-nav">
+            <div class="repo-nav-container">
+                <a href="#" class="repo-nav-item active">Code</a>
+                <a href="#" class="repo-nav-item">Issues</a>
+                <a href="#" class="repo-nav-item">Pull requests</a>
+                <a href="#" class="repo-nav-item">Discussions</a>
+                <a href="#" class="repo-nav-item">Actions</a>
+                <a href="#" class="repo-nav-item">Projects</a>
+                <a href="#" class="repo-nav-item">Wiki</a>
+                <a href="#" class="repo-nav-item">Security</a>
+                <a href="#" class="repo-nav-item">Insights</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-column">
+                <!-- File Browser -->
+                <div class="file-browser">
+                    <div class="file-browser-header">
+                        <div class="breadcrumb">
+                            <a href="#">repository-name</a>
+                            <span>/</span>
+                            <a href="#">src</a>
+                            <span>/</span>
+                            <span>components</span>
+                        </div>
+                    </div>
+                    <ul class="file-list">
+                        <li>
+                            <a href="#" class="file-item">
+                                <i class="fas fa-folder file-icon"></i>
+                                <span class="file-name">assets</span>
+                                <span class="file-meta"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="file-item">
+                                <i class="fas fa-folder file-icon"></i>
+                                <span class="file-name">components</span>
+                                <span class="file-meta"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="file-item">
+                                <i class="fas fa-file file-icon"></i>
+                                <span class="file-name">App.js</span>
+                                <span class="file-meta">12 KB</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="file-item">
+                                <i class="fas fa-file file-icon"></i>
+                                <span class="file-name">index.js</span>
+                                <span class="file-meta">2 KB</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="file-item">
+                                <i class="fas fa-file file-icon"></i>
+                                <span class="file-name">package.json</span>
+                                <span class="file-meta">1 KB</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="file-item">
+                                <i class="fas fa-file file-icon"></i>
+                                <span class="file-name">README.md</span>
+                                <span class="file-meta">5 KB</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Readme Section -->
+                <div class="readme">
+                    <div class="readme-header">
+                        <div class="readme-title">README.md</div>
+                    </div>
+                    <div class="readme-content">
+                        <h1>Project Title</h1>
+                        <p>A brief description of what this project does and who it's for</p>
+
+                        <h2>Features</h2>
+                        <ul>
+                            <li>Feature 1</li>
+                            <li>Feature 2</li>
+                            <li>Feature 3</li>
+                        </ul>
+
+                        <h2>Installation</h2>
+                        <p>To install this project, run:</p>
+                        <pre><code>npm install</code></pre>
+
+                        <h2>Usage</h2>
+                        <p>To start the application:</p>
+                        <pre><code>npm start</code></pre>
+
+                        <h2>Contributing</h2>
+                        <p>Contributions are welcome! Please read our contributing guidelines before submitting a pull
+                            request.</p>
+
+                        <h2>License</h2>
+                        <p>This project is licensed under the MIT License - see the <a href="#">LICENSE</a> file for
+                            details.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">About</h3>
+                    <div class="about-item">
+                        <i class="fas fa-book"></i>
+                        <span>No description, website, or topics provided.</span>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-link"></i>
+                        <span>No website</span>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-balance-scale"></i>
+                        <span>MIT License</span>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-history"></i>
+                        <span>Last updated 3 days ago</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Languages</h3>
+                    <div class="languages">
+                        <div class="language">JavaScript</div>
+                        <div class="language">HTML</div>
+                        <div class="language">CSS</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Contributors</h3>
+                    <div class="contributors">
+                        <div class="contributor">U</div>
+                        <div class="contributor">A</div>
+                        <div class="contributor">B</div>
+                        <div class="contributor">C</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Security</a>
+                    <a href="#">Status</a>
+                    <a href="#">Docs</a>
+                    <a href="#">Contact GitHub</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">API</a>
+                    <a href="#">Training</a>
+                    <a href="#">Blog</a>
+                    <a href="#">About</a>
+                </div>
+                <div class="footer-info">
+                    © 2023 GitHub, Inc.
+                </div>
+            </div>
+        </footer>
+    </body>
+
+    </html>
+
+
+
+    <script>
+
+    </script>
+</body>
+
+</html>
